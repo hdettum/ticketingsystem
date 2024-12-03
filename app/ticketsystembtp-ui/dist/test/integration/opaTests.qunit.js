@@ -1,0 +1,2 @@
+sap.ui.require(["sap/fe/test/JourneyRunner","ticketingsystem/test/integration/FirstJourney","ticketingsystem/test/integration/pages/UserSetList","ticketingsystem/test/integration/pages/UserSetObjectPage"],function(e,t,s,i){"use strict";var e=new e({launchUrl:sap.ui.require.toUrl("ticketingsystem")+"/index.html"});e.run({pages:{onTheUserSetList:s,onTheUserSetObjectPage:i}},t.run)});
+//# sourceMappingURL=opaTests.qunit.js.map

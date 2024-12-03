@@ -1,0 +1,40 @@
+{
+  "name": "TicketSystem",
+  "version": "1.0.0",
+  "description": "Msg BTP Ops Ticket System",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^8",
+    "@sap/cds-dk": "^8.0.0",
+    "@sap/hana-client": "^2",
+    "express": "^4",
+    "@sap/xssec": "^3",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "^0.7.0",
+    "@sap/cds-compiler": "^4.0.0",
+    "@sap/hdi-deploy": "^4",
+    "mbt": "^1.2.7"
+  },
+ "scripts": {
+    "start": "cds-serve",
+    "build": "mbt build",
+    "deploy": "cf deploy mta_archives/ticketsystembtp_1.0.0.mtar",
+    "build:cds": "cds build --production"
+},
+"cds": {
+  "requires": {
+    "db": {
+      "kind": "hana"
+    },
+    "auth": {
+      "kind": "xsuaa"
+    }
+  },
+  "hana": {
+    "deploy-format": "hdbtable"
+  }
+}}

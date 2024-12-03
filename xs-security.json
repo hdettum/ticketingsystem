@@ -1,0 +1,35 @@
+{
+    "xsappname": "ticketsystembtp",
+    "tenant-mode": "dedicated",
+    "scopes": [
+      {
+        "name": "$XSAPPNAME.Admin",
+        "description": "Administrator scope",
+        "grant-as-authority-to-apps": ["$XSAPPNAME"]
+      },
+      {
+        "name": "$XSAPPNAME.User",
+        "description": "User scope"
+      }
+    ],
+    "attributes": [
+      {
+        "name": "role",
+        "description": "User role",
+        "value": ["Admin", "User"]
+      }
+    ],
+    "role-templates": [
+      {
+        "name": "Admin",
+        "description": "Admin role template",
+        "scope-references": ["$XSAPPNAME.Admin"]
+      },
+      {
+        "name": "User",
+        "description": "User role template",
+        "scope-references": ["$XSAPPNAME.User"]
+      }
+    ]
+  }
+  
