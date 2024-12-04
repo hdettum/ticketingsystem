@@ -4,20 +4,15 @@
     "scopes": [
       {
         "name": "$XSAPPNAME.Admin",
-        "description": "Administrator scope",
-        "grant-as-authority-to-apps": ["$XSAPPNAME"]
+        "description": "Administrator scope"
       },
       {
         "name": "$XSAPPNAME.User",
         "description": "User scope"
       }
     ],
-    "attributes": [
-      {
-        "name": "role",
-        "description": "User role",
-        "value": ["Admin", "User"]
-      }
+    "authorities": [
+      "$XSAPPNAME.Admin"
     ],
     "role-templates": [
       {

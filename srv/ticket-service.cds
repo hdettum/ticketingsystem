@@ -1,6 +1,6 @@
 using { ticketsystembtp.db as db } from '../db/datamodel';
 
-service TicketService {
+service TicketService @(path:'/odata') {
     entity Tickets as projection on db.Ticket;
     entity CreateSubaccountTickets as projection on db.CreateSubaccount;
     entity AddMembersTickets as projection on db.AddMembersToSubaccount;

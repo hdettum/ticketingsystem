@@ -1,23 +1,17 @@
-const cds = require('@sap/cds')
+const cds = require('@sap/cds');
 
-module.exports = cds.service.impl(async function() {
-    const { 
-        Tickets, 
-        CreateSubaccountTickets, 
+module.exports = cds.service.impl(async function () {
+    const {
+        Tickets,
+        CreateSubaccountTickets,
         AddMembersTickets,
         DeleteSubaccountTickets,
-        ChangeRoleTickets 
-    } = this.entities
+        ChangeRoleTickets
+    } = this.entities;
 
-    // Generic ticket handling
-    this.before('CREATE', 'Tickets', req => {
-        console.log('Creating ticket:', req.data)
-    })
-
-    // Specific handlers for each ticket type
-    this.before('CREATE', 'CreateSubaccountTickets', req => {
-        if (!req.data.subaccountDisplayName) {
-            req.error(400, 'Subaccount display name is required')
-        }
-    })
-})
+  
+    this.on('READ', ['Tickets', 'CreateSubaccountTickets', 'AddMembersTickets', 'DeleteSubaccountTickets', 'ChangeRoleTickets'], async (req, next) => {
+        console.log(`Fetching data for: ${req.target.name}`);
+        return next(); 
+    });
+});

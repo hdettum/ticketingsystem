@@ -4,53 +4,71 @@ version: 1.0.0
 description: "Ticket System Application"
 
 parameters:
-  enable-parallel-deployments: true
+ enable-parallel-deployments: true
 
 build-parameters:
-  before-all:
-    - builder: custom
-      commands:
-        - npx cds build --production
+ before-all:
+   - builder: custom
+     commands:
+       - npx cds build --production
 
 modules:
-  - name: ticketsystembtp-srv
-    type: nodejs
-    path: gen/srv
-    parameters:
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm
-    provides:
-      - name: ticketsystembtp-srv-api
-        properties:
-          srv-url: ${default-url}
+ - name: ticketsystembtp-srv
+   type: nodejs
+   path: gen/srv
+   parameters:
+     buildpack: nodejs_buildpack
+   build-parameters:
+     builder: npm
+   provides:
+     - name: ticketsystembtp-srv-api
+       properties:
+         url: ${default-url}
+   requires:
+     - name: ticketsystembtp-db
+     - name: ticketsystembtp-auth
 
-  - name: ticketsystembtp-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: ticketsystembtp-db
+ - name: ticketsystembtp-db-deployer
+   type: hdb
+   path: gen/db
+   parameters:
+     buildpack: nodejs_buildpack
+   requires:
+     - name: ticketsystembtp-db
 
-
+ - name: ticketsystembtp-ui
+   type: html5
+   path: app/ticketsystembtp-ui
+   parameters:
+     buildpack: nodejs_buildpack
+   build-parameters:
+     builder: custom
+     commands:
+       - npm install
+       - npm run build
+   requires:
+     - name: ticketsystembtp-srv-api
+       group: destinations
+       properties:
+         name: ticketsystembtp-srv
+         url: ~{url}
 
 resources:
-  - name: ticketsystembtp-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
+ - name: ticketsystembtp-db
+   type: com.sap.xs.hdi-container
+   parameters:
+     service: hana
+     service-plan: hdi-shared
 
-  - name: ticketsystembtp-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application
-      path: ./xs-security.json
+ - name: ticketsystembtp-auth
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: xsuaa
+     service-plan: application
+     path: ./xs-security.json
 
-  - name: ticketsystembtp-html5-repo
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: html5-apps-repo
-      service-plan: app-host
+ - name: ticketsystembtp-html5-repo
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service: html5-apps-repo
+     service-plan: app-host
